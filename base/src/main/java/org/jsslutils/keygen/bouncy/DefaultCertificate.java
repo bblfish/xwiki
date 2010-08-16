@@ -112,6 +112,7 @@ public class DefaultCertificate implements Certificate {
 
 
 	public void addDurationInDays(String days) {
+		if (null == days || "".equals(days)) return;
 		try {
 			this.numDays += Double.valueOf(days);
 		} catch (NumberFormatException e) {
@@ -121,6 +122,7 @@ public class DefaultCertificate implements Certificate {
 	}
 
 	public void startEarlier(String hours) {
+		if (null == hours  || "".equals(hours)) return;
 		try {
 			this.earlier += Double.valueOf(hours);
 		} catch (NumberFormatException e) {
@@ -129,6 +131,7 @@ public class DefaultCertificate implements Certificate {
 	}
 
 	public void addDurationInHours(String hours) {
+		if (null ==hours || "".equals(hours)) return;
 		try {
 			this.numHours += Double.valueOf(hours);
 		} catch (NumberFormatException e) {
