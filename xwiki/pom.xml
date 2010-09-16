@@ -10,7 +10,7 @@
    <groupId>net.bblfish.dev.xwiki</groupId>
    <artifactId>keygen</artifactId>
    <packaging>pom</packaging>
-   <version>0.3.2-SNAPSHOT</version>
+   <version>0.5</version>
    <name>Xwiki Keygen Module</name>
    <url>http://esw.w3.org/topic/foaf+ssl</url>
    <licenses>

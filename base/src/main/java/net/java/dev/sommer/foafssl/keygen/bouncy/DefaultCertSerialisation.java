@@ -1,9 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!--
+/*
  * New BSD license: http://opensource.org/licenses/bsd-license.php
  *
- * Copyright (c) 2010.
+ *  Copyright (c) 2010.
  * Henry Story
  * http://bblfish.net/
  *
@@ -29,31 +27,57 @@
  *  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
  *  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- *  POSSIBILITY OF SUCH DAMAGE.0-1301 USA, or see the FSF site: http://www.fsf.org.
+ *  POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package net.java.dev.sommer.foafssl.keygen.bouncy;
+
+import net.java.dev.sommer.foafssl.keygen.CertSerialisation;
+import net.java.dev.sommer.foafssl.keygen.Certificate;
+
+import javax.servlet.ServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.Charset;
+
+/**
+ * Implementation of CertSerialisation
  *
--->
+ * @author Henry Story
+ */
+public abstract class DefaultCertSerialisation implements CertSerialisation {
+	Certificate cer;
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>net.bblfish.dev.xwiki</groupId>
-        <artifactId>keygen</artifactId>
-        <version>0.5</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
+	DefaultCertSerialisation(Certificate cer) {
+		this.cer = cer;
+	}
 
-    <artifactId>foafssl-application</artifactId>
-    <name>XWiki Platform - Foaf+ssl - Web</name>
-    <version>0.3.2-SNAPSHOT</version>
-    <packaging>xar</packaging>
-    <description>FOAF+SSL certificate creation for XWiki</description>
-    <dependencies>
-        <dependency>
-            <groupId>org.jsslutils.keygen</groupId>
-            <artifactId>keygenapp-base</artifactId>
-            <version>0.3-SNAPSHOT</version>            
-        </dependency>
-    </dependencies>
-</project>
+	@Override
+	public int getLength() {
+		return getContent().length;
+	}
 
+	@Override
+	public void writeTo(OutputStream out) throws IOException {
+		out.write(getContent());
+	}
+
+	@Override
+	public void writeTo(ServletResponse response) throws IOException {
+		response.setContentLength(getLength());
+		response.setContentType(getMimeType());
+		writeTo(response.getOutputStream());
+	}
+
+	/**
+	 * Should not be used, only for testing!
+	 *
+	 * @return a string representation of the output
+	 */
+	@Override
+	public String toString() {
+		return "DO NOT USE FOR OUTPUT! use write(ServletResponse res) instead!\r\n" +
+			new String(getContent(), Charset.forName("UTF-8"));
+
+	}
+}
