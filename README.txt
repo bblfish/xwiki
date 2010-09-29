@@ -1,3 +1,5 @@
+WARNING- needs to be synced with new foaf-ssl libs
+
 This application allows one to run the foaf+ssl protocol in XWiki.
 For more on foaf+ssl see: http://esw.w3.org/topic/foaf+ssl
 For more on XWiki see: http://www.xwiki.org/
